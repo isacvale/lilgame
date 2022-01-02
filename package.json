@@ -1,6 +1,6 @@
 {
   "name": "lilgame",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Testing components for creating games.",
   "main": "index.js",
   "scripts": {
@@ -10,8 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "@dvo/chips": "^0.0.2",
-    "@dvo/fc": "^0.0.3",
-    "@dvo/raven": "^3.0.0",
-    "plain-draggable": "^2.5.14"
+    "@dvo/fc": "^0.0.3"
   }
 }
