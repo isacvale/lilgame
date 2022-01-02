@@ -1,0 +1,22 @@
+<template id="tpl-game-utils"></template>
+<style></style>
+<script type="module">
+  import interact from "https://cdn.interactjs.io/v1.10.11/interactjs/index.js";
+
+  if (!window.g) window.g = {};
+
+  window.g.dragAndDrop = {
+    move: ({ target, dx, dy }) => {
+      const x = (parseFloat(target.dataset.x) || 0) + dx;
+      const y = (parseFloat(target.dataset.y) || 0) + dy;
+      target.dataset.x = x;
+      target.dataset.y = y;
+
+      target.style.transform = `translate(${x}px, ${y}px)`;
+    },
+    interact,
+  };
+
+  const evLoadGame = new Event("evLoadGame");
+  document.dispatchEvent(evLoadGame);
+</script>

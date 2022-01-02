@@ -1,0 +1,31 @@
+<template id="tpl-game-board">
+  <div class="board"><slot></slot></div>
+  <style>
+    .board {
+      border: 1px solid gray;
+      display: grid;
+      grid-template-columns: repeat(2, auto);
+      /* padding: 1rem; */
+      justify-content: left;
+      width: fit-content;
+      box-sizing: border-box;
+      padding: 64px;
+      touch-action: none;
+      user-select: none;
+    }
+  </style>
+</template>
+
+<script type="module">
+  import fc from "/node_modules/@dvo/fc/src/index.js";
+
+  if (!window.g) window.g = {};
+  window.g.dragRef = null;
+
+  fc({
+    tag: "game-board",
+    connectedCallback: (el) => () => {
+      console.log("connecteddd", document.querySelectorAll("game-tile"));
+    },
+  });
+</script>

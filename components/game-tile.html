@@ -1,0 +1,79 @@
+<template id="tpl-game-tile">
+  <div class="tile"><slot></slot></div>
+  <style>
+    .tile {
+      align-items: center;
+      background: lightpink;
+      box-shadow: 0 0 6px 2px hsla(0, 0%, 0%, 0.1);
+      display: flex;
+      height: 100px;
+      justify-content: center;
+      margin: 0.2rem;
+      width: 100px;
+      transform: scale(1);
+      transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+      touch-action: none;
+      user-select: none;
+    }
+    .tile.--active {
+      background: pink;
+      box-shadow: 0 0 0 2px darksalmon;
+      transform: scale(1.04);
+    }
+  </style>
+</template>
+<style>
+  game-tile.--raised {
+    position: relative;
+    z-index: 1;
+  }
+</style>
+
+<script type="module">
+  import fc from "/node_modules/@dvo/fc/src/index.js";
+  import { throttle } from "/scripts/utils.js";
+
+  const loadComponent = () => {
+    const { interact } = window.g.dragAndDrop;
+
+    const receivePiece = (el) => {
+      // console.log()
+    };
+
+    const getSlot = (el) => el.shadowRoot.querySelector("slot");
+    const getTile = (el) => el.shadowRoot.querySelector(".tile");
+
+    const checkValidDrop = (piece, target) => {
+      if (piece.tagName === "GAME-PIECE") return true;
+    };
+
+    fc({
+      tag: "game-tile",
+      connectedCallback: (el) => () => {
+        const tile = el.shadowRoot.querySelector(".tile");
+        const slot = tile.querySelector("slot");
+        interact(tile)
+          .dropzone({
+            accept: "game-piece",
+            ondrop: ({ relatedTarget: piece }) => {
+              slot.appendChild(piece);
+              piece.dataset.x = 0;
+              piece.dataset.y = 0;
+              piece.style.transform = "translate(0px, 0px)";
+              getTile(el).classList.remove("--active");
+            },
+          })
+          .on("dragenter", ({ relatedTarget: piece }) => {
+            if (checkValidDrop(piece, el)) {
+              getTile(el).classList.add("--active");
+            }
+          })
+          .on("dragleave", ({ relatedTarget: piece }) => {
+            getTile(el).classList.remove("--active");
+          });
+      },
+    });
+  };
+
+  document.addEventListener("evLoadGame", loadComponent);
+</script>
