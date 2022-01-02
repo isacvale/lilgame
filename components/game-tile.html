@@ -23,9 +23,12 @@
   </style>
 </template>
 <style>
-  game-tile.--raised {
+  game-tile {
     position: relative;
-    z-index: 1;
+    z-index: 0;
+  }
+  game-tile.--raised {
+    z-index: 10;
   }
 </style>
 
@@ -57,10 +60,8 @@
             accept: "game-piece",
             ondrop: ({ relatedTarget: piece }) => {
               slot.appendChild(piece);
-              piece.dataset.x = 0;
-              piece.dataset.y = 0;
-              piece.style.transform = "translate(0px, 0px)";
               getTile(el).classList.remove("--active");
+              piece.dataset.tile = el.dataset.tile;
             },
           })
           .on("dragenter", ({ relatedTarget: piece }) => {

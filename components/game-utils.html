@@ -15,6 +15,12 @@
       target.style.transform = `translate(${x}px, ${y}px)`;
     },
     interact,
+    raiseTile: (tileRef) => {
+      document.querySelectorAll("game-tile").forEach((tile) => {
+        if (tile.dataset.tile === tileRef) tile.classList.add("--raised");
+        else tile.classList.remove("--raised");
+      });
+    },
   };
 
   const evLoadGame = new Event("evLoadGame");

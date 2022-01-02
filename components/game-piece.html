@@ -25,6 +25,11 @@
     }
   </style>
 </template>
+<style>
+  game-piece {
+    transition: transform 0.1s;
+  }
+</style>
 
 <script type="module">
   import fc from "/node_modules/@dvo/fc/src/index.js";
@@ -36,7 +41,7 @@
       .shadowRoot.querySelector(".board");
     const getPiece = (el) => el.shadowRoot.querySelector(".piece");
 
-    const { interact, move } = window.g.dragAndDrop;
+    const { interact, move, raiseTile } = window.g.dragAndDrop;
 
     fc({
       tag: "game-piece",
@@ -47,12 +52,14 @@
             start: (ev) => {
               piece.classList.add("--grabbed");
               console.log("epe", el.parentElement);
-              el.parentElement.classList.add("--raised");
+              raiseTile(el.dataset.tile);
             },
             move,
             end: ({ relatedTarget: tile }) => {
               piece.classList.remove("--grabbed");
-              el.parentElement.classList.remove("--raised");
+              el.dataset.x = 0;
+              el.dataset.y = 0;
+              el.style.transform = "translate(0px, 0px)";
             },
           },
           modifiers: [
