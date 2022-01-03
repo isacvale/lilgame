@@ -15,8 +15,6 @@ export const throttle = (func, delay = 100) => {
       func(...args);
       allowed = false;
       setTimeout(() => (allowed = true), delay);
-    } else {
-      console.log("blocked");
     }
   };
 };

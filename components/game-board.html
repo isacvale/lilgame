@@ -19,13 +19,14 @@
 <script type="module">
   import fc from "/node_modules/@dvo/fc/src/index.js";
 
-  if (!window.g) window.g = {};
-  window.g.dragRef = null;
+  const loadComponent = () => {
+    window.g.dragRef = null;
 
-  fc({
-    tag: "game-board",
-    connectedCallback: (el) => () => {
-      console.log("connecteddd", document.querySelectorAll("game-tile"));
-    },
-  });
+    fc({
+      tag: "game-board",
+      connectedCallback: (el) => () => {},
+    });
+  };
+
+  document.addEventListener("evLoadGame", loadComponent);
 </script>

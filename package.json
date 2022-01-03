@@ -10,6 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "@dvo/chips": "^0.0.2",
-    "@dvo/fc": "^0.0.3"
+    "@dvo/fc": "^0.0.4"
   }
 }

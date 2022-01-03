@@ -45,29 +45,30 @@
 
     fc({
       tag: "game-piece",
-      connectedCallback: (el) => () => {
-        const piece = getPiece(el);
-        interact(el).draggable({
-          listeners: {
-            start: (ev) => {
-              piece.classList.add("--grabbed");
-              console.log("epe", el.parentElement);
-              raiseTile(el.dataset.tile);
+      props: {
+        connectedCallback: (el) => () => {
+          const piece = getPiece(el);
+          interact(el).draggable({
+            listeners: {
+              start: (ev) => {
+                piece.classList.add("--grabbed");
+                raiseTile(el.dataset.tile);
+              },
+              move,
+              end: ({ relatedTarget: tile }) => {
+                piece.classList.remove("--grabbed");
+                el.dataset.x = 0;
+                el.dataset.y = 0;
+                el.style.transform = "translate(0px, 0px)";
+              },
             },
-            move,
-            end: ({ relatedTarget: tile }) => {
-              piece.classList.remove("--grabbed");
-              el.dataset.x = 0;
-              el.dataset.y = 0;
-              el.style.transform = "translate(0px, 0px)";
-            },
-          },
-          modifiers: [
-            interact.modifiers.restrictRect({
-              restriction: board,
-            }),
-          ],
-        });
+            modifiers: [
+              interact.modifiers.restrictRect({
+                restriction: board,
+              }),
+            ],
+          });
+        },
       },
     });
   };

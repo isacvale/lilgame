@@ -39,10 +39,6 @@
   const loadComponent = () => {
     const { interact } = window.g.dragAndDrop;
 
-    const receivePiece = (el) => {
-      // console.log()
-    };
-
     const getSlot = (el) => el.shadowRoot.querySelector("slot");
     const getTile = (el) => el.shadowRoot.querySelector(".tile");
 
@@ -52,26 +48,28 @@
 
     fc({
       tag: "game-tile",
-      connectedCallback: (el) => () => {
-        const tile = el.shadowRoot.querySelector(".tile");
-        const slot = tile.querySelector("slot");
-        interact(tile)
-          .dropzone({
-            accept: "game-piece",
-            ondrop: ({ relatedTarget: piece }) => {
-              slot.appendChild(piece);
+      props: {
+        connectedCallback: (el) => () => {
+          const tile = el.shadowRoot.querySelector(".tile");
+          const slot = tile.querySelector("slot");
+          interact(tile)
+            .dropzone({
+              accept: "game-piece",
+              ondrop: ({ relatedTarget: piece }) => {
+                slot.appendChild(piece);
+                getTile(el).classList.remove("--active");
+                piece.dataset.tile = el.dataset.tile;
+              },
+            })
+            .on("dragenter", ({ relatedTarget: piece }) => {
+              if (checkValidDrop(piece, el)) {
+                getTile(el).classList.add("--active");
+              }
+            })
+            .on("dragleave", ({ relatedTarget: piece }) => {
               getTile(el).classList.remove("--active");
-              piece.dataset.tile = el.dataset.tile;
-            },
-          })
-          .on("dragenter", ({ relatedTarget: piece }) => {
-            if (checkValidDrop(piece, el)) {
-              getTile(el).classList.add("--active");
-            }
-          })
-          .on("dragleave", ({ relatedTarget: piece }) => {
-            getTile(el).classList.remove("--active");
-          });
+            });
+        },
       },
     });
   };
